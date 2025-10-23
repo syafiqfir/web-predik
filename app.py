@@ -45,7 +45,71 @@ def predict_bulk(mv, product):
 # === SETUP ===
 col1, _ = st.columns([1, 6])
 with col1:
-    st.image("Kievit-Logo.png", width=70)
+    st.image("Kievit-Logo.png", width=80)
+
+st.set_page_config(layout="wide")
+
+# === CUSTOM NAVBAR ===
+st.markdown("""
+    <style>
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #1e1e1e;
+        color: white;
+        padding: 10px 30px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .navbar-logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-logo img {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .navbar-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .navbar-links a:hover {
+        color: #4A90E2;
+    }
+
+    .block-container {
+        padding-top: 80px; /* biar konten gak ketiban navbar */
+    }
+    </style>
+
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="Kievit-Logo.png">
+            <span><b>Prediksi Parameter MV</b></span>
+        </div>
+        <div class="navbar-links">
+            <a href="#">Home</a>
+            <a href="#">Model</a>
+            <a href="#">Tentang</a>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 st.title("🧂  Prediksi Parameter MV")
 st.caption("Aplikasi prediksi berbasis model regresi")
