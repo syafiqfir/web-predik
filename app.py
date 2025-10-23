@@ -43,7 +43,13 @@ def predict_bulk(mv, product):
      #   return np.nan
 
 # === SETUP ===
-st.title("🧂 Prediksi Parameter Produk")
+col1, _ = st.columns([1, 6])
+with col1:
+    st.image("Kievit-Logo.png", width=70)
+
+st.title("🧂  Prediksi Parameter MV")
+st.caption("Aplikasi prediksi berbasis model regresi")
+st.markdown("---")
 
 # Pilihan produk
 product = st.selectbox(
