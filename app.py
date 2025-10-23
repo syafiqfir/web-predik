@@ -2,38 +2,67 @@ import streamlit as st
 import numpy as np
 
 # === MODEL PREDIKSI ===
-def predict_moisture(mv):
-    return (16.71575962
-            -0.03506626*mv[0]
-            -0.03854361*mv[1]
-            -0.03254332*mv[2]
-            -0.02080461*mv[3])
+def predict_moisture(mv, product):
+    if product == "BL 32D":
+        return (16.71575962
+                -0.03506626*mv[0]
+                -0.03854361*mv[1]
+                -0.03254332*mv[2]
+                -0.02080461*mv[3])
+    elif product == "BL M830":
+        return (-4.869838337
+                + 0.008154887*mv[0] 
+                - 0.176714088*mv[1] 
+                + 0.027663921*mv[2] 
+                + 0.077557453*mv[3])
+    #elif product == "Produk C":
+      #  return (17.102 - 0.030*mv[0] - 0.035*mv[1] - 0.031*mv[2] - 0.020*mv[3])
+    #elif product == "Produk D":
+     #   return (19.005 - 0.026*mv[0] - 0.039*mv[1] - 0.032*mv[2] - 0.023*mv[3])
+   # else:
+    #    return np.nan
 
-def predict_bulk(mv):
-    # contoh model (ganti sesuai model aslimu nanti ya sayangku 💖)
-    return (1828.620883
-            -2-415650*mv[0]
-            -8.621436*mv[1]
-            +1.443786*mv[2]
-            -3.568572*mv[3])
+def predict_bulk(mv, product):
+    if product == "BL 32D":
+        return (1828.620883
+                -2.415650*mv[0]
+                -8.621436*mv[1]
+                +1.443786*mv[2]
+                -3.568572*mv[3])
+    elif product == "BL M830":
+        return (2727.903612
+                - 4.791772*mv[0] 
+                + 10.905814*mv[1] 
+                - 26.585413*mv[2] 
+                - 2.892094*mv[3])
+    #elif product == "Produk C":
+     #   return (1888.550 - 2.250*mv[0] - 8.950*mv[1] + 1.350*mv[2] - 3.000*mv[3])
+    #elif product == "Produk D":
+     #   return (1950.800 - 2.050*mv[0] - 9.500*mv[1] + 1.100*mv[2] - 3.300*mv[3])
+    #else:
+     #   return np.nan
 
 # === SETUP ===
 st.title("🧂 Prediksi Parameter Produk")
 
+# Pilihan produk
+product = st.selectbox(
+    "Pilih produk:",
+    ["BL 32D", "BL M830"]#, "Produk C", "Produk D"
+)
+
 # Pilihan model
 mode = st.radio(
     "Pilih jenis prediksi:",
-    ["Moisture", "Bulk"],
+    ["Moisture", "Bulk Density"],
     horizontal=True
 )
 
 st.markdown("Masukkan rentang nilai masing-masing MV (min dan max):")
 
 mv_labels = ["primary1_temp", "primary1_speed", "primary2_speed", "primary2_temp"]
-mv_min = []
-mv_max = []
+mv_min, mv_max = [], []
 
-cols = st.columns(4)
 for i, label in enumerate(mv_labels):
     col1, col2 = st.columns(2)
     mv_min.append(col1.number_input(f"{label} min", value=0.0, key=f"min_{i}"))
@@ -43,17 +72,18 @@ if st.button("Jalankan Prediksi"):
     mv_mid = [(mn + mx) / 2 for mn, mx in zip(mv_min, mv_max)]
 
     if mode == "Moisture":
-        result_min = predict_moisture(mv_max)
-        result_max = predict_moisture(mv_min)
-        result_mid = predict_moisture(mv_mid)
+        result_min = predict_moisture(mv_max, product)
+        result_max = predict_moisture(mv_min, product)
+        result_mid = predict_moisture(mv_mid, product)
         label = "Moisture"
     else:
-        result_min = predict_bulk(mv_max)
-        result_max = predict_bulk(mv_min)
-        result_mid = predict_bulk(mv_mid)
+        result_min = predict_bulk(mv_max, product)
+        result_max = predict_bulk(mv_min, product)
+        result_mid = predict_bulk(mv_mid, product)
         label = "Bulk Density"
 
-    st.subheader(f"📊 Hasil Prediksi {label}")
+    st.subheader(f"📊 Hasil Prediksi {label} — {product}")
+    st.write(f"**MV Values:**")
     for i, (mn, mx, mid) in enumerate(zip(mv_min, mv_max, mv_mid), start=1):
         st.write(f"**MV{i}:** min={mn}, max={mx}, mid={mid}")
 
