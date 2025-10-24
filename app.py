@@ -15,8 +15,12 @@ def predict_moisture(mv, product):
                 - 0.176714088*mv[1] 
                 + 0.027663921*mv[2] 
                 + 0.077557453*mv[3])
-    #elif product == "Produk C":
-      #  return (17.102 - 0.030*mv[0] - 0.035*mv[1] - 0.031*mv[2] - 0.020*mv[3])
+    elif product == "Ca 26B":
+        return (3.600132863 
+                + 0.002284247*mv[0] 
+                - 0.021749485*mv[1] 
+                + 0.009151191*mv[2] 
+                - 0.008709355*mv[3])
     #elif product == "Produk D":
      #   return (19.005 - 0.026*mv[0] - 0.039*mv[1] - 0.032*mv[2] - 0.023*mv[3])
    # else:
@@ -35,8 +39,12 @@ def predict_bulk(mv, product):
                 + 10.905814*mv[1] 
                 - 26.585413*mv[2] 
                 - 2.892094*mv[3])
-    #elif product == "Produk C":
-     #   return (1888.550 - 2.250*mv[0] - 8.950*mv[1] + 1.350*mv[2] - 3.000*mv[3])
+    elif product == "Ca 26B":
+        return (50.9661599 
+                + 0.6934976*mv[0] 
+                - 1.0121204*mv[1] 
+                - 0.2166025*mv[2] 
+                + 0.4597255*mv[3])
     #elif product == "Produk D":
      #   return (1950.800 - 2.050*mv[0] - 9.500*mv[1] + 1.100*mv[2] - 3.300*mv[3])
     #else:
@@ -57,7 +65,7 @@ st.markdown("---")
 # Pilihan produk
 product = st.selectbox(
     "Pilih produk:",
-    ["BL 32D", "BL M830"]#, "Produk C", "Produk D"
+    ["BL 32D", "BL M830", "Ca 26B"]#, "Produk D"
 )
 
 # Pilihan model
