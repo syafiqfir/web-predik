@@ -57,7 +57,6 @@ logo_base64 = base64.b64encode(file_).decode()
 st.set_page_config(layout="wide")
 
 # === CSS: BAR ATAS + LOGO ===
-
 st.markdown(f"""
     <style>
     .top-bar {{
@@ -73,7 +72,7 @@ st.markdown(f"""
         gap: 10px;
     }}
     .top-bar img {{
-        width: 80px;
+        width: 60px;
         margin-left: 20px;
     }}
     </style>
