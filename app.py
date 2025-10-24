@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import base64
 
 # === MODEL PREDIKSI ===
 def predict_moisture(mv, product):
@@ -50,15 +51,49 @@ def predict_bulk(mv, product):
     #else:
      #   return np.nan
 
-# === SETUP ===
-col1, _ = st.columns([1, 10])
-with col1:
-    st.image("Kievit-Logo.png", width=70)
+file_ = open("Kievit-Logo.png", "rb").read()
+logo_base64 = base64.b64encode(file_).decode()
 
 st.set_page_config(layout="wide")
 
+# === CSS: BAR ATAS + LOGO ===
 
-st.title("🧂  Prediksi Parameter MV")
+st.markdown(f"""
+    <style>
+    .top-bar {{
+        position: relative;
+        top: -35px;
+        z-index: 10;
+        width: 100%;
+        background-color: #0a22a8;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 10px;
+    }}
+    .top-bar img {{
+        width: 80px;
+        margin-left: 20px;
+    }}
+    </style>
+    <div class="top-bar">
+        <img src="data:image/png;base64,{logo_base64}" alt="Logo">
+    </div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+    <style>
+    .stApp {
+        background-color: #010c45; /* ganti pakai warna kesukaanmu */
+        color: white; /* biar teksnya kontras */
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+# === TITLE AREA ===
+st.title("🧂 Prediksi Parameter MV")
 st.caption("Aplikasi prediksi berbasis model regresi")
 st.markdown("---")
 
@@ -66,6 +101,7 @@ st.markdown("---")
 product = st.selectbox(
     "Pilih produk:",
     ["BL 32D", "BL M830", "Ca 26B"]#, "Produk D"
+    
 )
 
 # Pilihan model
